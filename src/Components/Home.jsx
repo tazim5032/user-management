@@ -4,8 +4,8 @@ import { MdBlock, MdDelete } from "react-icons/md";
 const Home = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [data, setData] = useState([
-    { id: 1, name: "John Doe", email: "john@example.com", lastLogin: "2024-09-05", registrationTime: "2023-08-10", status: "active" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", lastLogin: "2024-09-04", registrationTime: "2023-07-12", status: "blocked" },
+    { id: 1, name: "John Doe", email: "john@example.com", lastLogin: "2024-09-05T14:30:00", registrationTime: "2023-08-10T12:00:00", status: "active" },
+    { id: 2, name: "Jane Smith", email: "jane@example.com", lastLogin: "2024-09-04T15:00:00", registrationTime: "2023-07-12T10:45:00", status: "blocked" },
     // Add more data rows here
   ]);
 
@@ -26,21 +26,39 @@ const Home = () => {
   };
 
   const handleBlock = () => {
-    // Handle blocking logic
+    const newData = data.map((row) => 
+      selectedRows.includes(row.id) ? { ...row, status: 'blocked' } : row
+    );
+    setData(newData);
     alert("Blocked selected users");
   };
 
   const handleUnblock = () => {
-    // Handle unblocking logic
+    const newData = data.map((row) => 
+      selectedRows.includes(row.id) ? { ...row, status: 'active' } : row
+    );
+    setData(newData);
     alert("Unblocked selected users");
   };
 
   const handleDelete = () => {
-    // Handle delete logic
     const newData = data.filter(row => !selectedRows.includes(row.id));
     setData(newData);
     setSelectedRows([]);
     alert("Deleted selected users");
+  };
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    };
+    return new Date(dateString).toLocaleString('en-US', options);
   };
 
   return (
@@ -50,20 +68,23 @@ const Home = () => {
         <button
           onClick={handleBlock}
           className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+          aria-label="Block selected users"
         >
           Block
         </button>
         <button
           onClick={handleUnblock}
           className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+          aria-label="Unblock selected users"
         >
           <MdBlock className='text-2xl' />
         </button>
         <button
           onClick={handleDelete}
           className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+          aria-label="Delete selected users"
         >
-         <MdDelete className='text-2xl' />
+          <MdDelete className='text-2xl' />
         </button>
       </div>
 
@@ -99,8 +120,8 @@ const Home = () => {
               <td className="p-4">{row.id}</td>
               <td className="p-4">{row.name}</td>
               <td className="p-4">{row.email}</td>
-              <td className="p-4">{row.lastLogin}</td>
-              <td className="p-4">{row.registrationTime}</td>
+              <td className="p-4">{formatDate(row.lastLogin)}</td>
+              <td className="p-4">{formatDate(row.registrationTime)}</td>
               <td className={`p-4 ${row.status === "active" ? "text-green-500" : "text-red-500"}`}>
                 {row.status}
               </td>
