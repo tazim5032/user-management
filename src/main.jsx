@@ -7,8 +7,8 @@ import Root from "./Root.jsx";
 import ErrorPage from "./ErrorPage.jsx";
 import Home from "./Components/Home.jsx";
 import AuthProvider from "./Provider/AuthProvider.jsx";
-import Login from "./Pages/Login.jsx";
-import SignUp from "./Pages/SignUp.jsx";
+import Register from "./Pages/SignUp/Register.jsx";
+import Login from "./Pages/Login/Login.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'signup',
-        element: <SignUp></SignUp>
+        element: <Register></Register>
       }
     ],
   },
