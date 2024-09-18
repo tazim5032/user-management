@@ -14,12 +14,15 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    const registrationDate = new Date(); // Use Date object
     const info = {
       name: data.name,
       email: data.email,
       password: data.pin,
       status: "active",
+      registrationDate: registrationDate, // Store as Date object
     };
+
     try {
       const { data } = await axiosPublic.post("/users", info);
       if (data.message === "exist") {
