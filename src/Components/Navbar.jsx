@@ -8,12 +8,12 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-800 fixed top-0 left-0 w-full z-50 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo / Website Name */}
           <div className="flex items-center">
-            <Link to="/" className="text-white text-2xl font-bold">
-              DiverseDeal
+            <Link to="/" className="text-green-400 text-2xl font-bold">
+              ManageHub
             </Link>
           </div>
 
@@ -32,12 +32,14 @@ const Navbar = () => {
 
             {/* Conditional Login/Logout */}
             {user ? (
-              <button
-                onClick={logOut}
-                className="text-white bg-red-600 px-3 py-1 rounded hover:bg-red-700"
-              >
-                Logout
-              </button>
+              <Link to='/login'>
+                <button
+                  onClick={logOut}
+                  className="text-white bg-red-600 px-3 py-1 rounded hover:bg-red-700"
+                >
+                  Logout
+                </button>
+              </Link>
             ) : (
               <Link
                 to="/login"
