@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
-import { FaUsers, FaCog, FaHome, FaUserCircle, FaSignOutAlt, FaSignInAlt, FaBars } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import useAuth from '../Hooks/useAuth';
+import React, { useEffect, useState } from "react";
+import {
+  FaCog,
+  FaHome,
+  FaUserCircle,
+  FaSignOutAlt,
+  FaSignInAlt,
+  FaBars,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication status
+
+  const axiosSecure = useAxiosSecure();
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, [user]);
+
+  const getData = async () => {
+    const { data } = await axiosSecure(`/user/${user?.email}`);
+    setUsers(data);
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -17,17 +37,18 @@ const Navbar = () => {
     setIsProfileOpen(!isProfileOpen);
   };
 
-  const handleLogin = () => {
-    // Login logic here
-    setIsAuthenticated(true);  // Simulate login
-    alert("Logged in!");
-  };
+  // const handleLogin = () => {
+  //   // Login logic here
+  //   setIsAuthenticated(true); // Simulate login
+  //   alert("Logged in!");
+  // };
 
-  const handleLogout = () => {
-    // Logout logic here
-    setIsAuthenticated(false);  // Simulate logout
-    setIsProfileOpen(false);
-    alert("Logged out!");
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -44,13 +65,16 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex md:ml-6 space-x-4">
-              <Link to="/dashboard" className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">
-                <FaHome className="inline mr-2" /> Dashboard
+              <Link
+                to="/"
+                className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                <FaHome className="inline mr-2" /> Home
               </Link>
-              <Link to="/users" className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">
-                <FaUsers className="inline mr-2" /> Users
-              </Link>
-              <Link to="/settings" className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">
+              <Link
+                to="/settings"
+                className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+              >
                 <FaCog className="inline mr-2" /> Settings
               </Link>
             </div>
@@ -58,7 +82,7 @@ const Navbar = () => {
 
           {/* Login/Logout/Profile */}
           <div className="hidden md:block">
-            {isAuthenticated ? (
+            {user ? (
               <div className="relative">
                 <button
                   onClick={toggleProfileMenu}
@@ -75,7 +99,7 @@ const Navbar = () => {
                       Your Profile
                     </Link>
                     <button
-                      onClick={handleLogout}
+                      onClick={handleLogOut}
                       className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       <FaSignOutAlt className="inline mr-2" /> Sign out
@@ -84,12 +108,12 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              <button
-                onClick={handleLogin}
+              <Link
+               to='/login'
                 className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
               >
                 <FaSignInAlt className="inline mr-2" /> Login
-              </button>
+              </Link>
             )}
           </div>
 
@@ -109,16 +133,25 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/dashboard" className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
+            {/* <Link
+              to="/dashboard"
+              className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium"
+            >
               <FaHome className="inline mr-2" /> Dashboard
+            </Link> */}
+            <Link
+              to="/"
+              className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium"
+            >
+              <FaHome className="inline mr-2" /> Home
             </Link>
-            <Link to="/users" className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
-              <FaUsers className="inline mr-2" /> Users
-            </Link>
-            <Link to="/settings" className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
+            <Link
+              to="/settings"
+              className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium"
+            >
               <FaCog className="inline mr-2" /> Settings
             </Link>
-            
+
             {isAuthenticated ? (
               <button
                 onClick={toggleProfileMenu}
@@ -128,13 +161,13 @@ const Navbar = () => {
               </button>
             ) : (
               <button
-                onClick={handleLogin}
+                // onClick={handleLogin}
                 className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium"
               >
                 <FaSignInAlt className="inline mr-2" /> Login
               </button>
             )}
-            
+
             {isAuthenticated && isProfileOpen && (
               <div className="pl-6">
                 <Link
@@ -144,7 +177,7 @@ const Navbar = () => {
                   Your Profile
                 </Link>
                 <button
-                  onClick={handleLogout}
+                  onClick={handleLogOut}
                   className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   <FaSignOutAlt className="inline mr-2" /> Sign out
