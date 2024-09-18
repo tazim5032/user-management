@@ -13,7 +13,7 @@ const ShowUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await axiosPublic.get("/all-users");
-        console.log(response.data);
+        //console.log(response.data);
         setUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -35,9 +35,20 @@ const ShowUsers = () => {
     );
   };
 
-  const handleBlockUsers = () => {
-    // Implement block functionality
-    console.log("Block users:", selectedUsers);
+  const handleBlockUsers = async () => {
+    console.log(selectedUsers)
+    try {
+      await axiosPublic.post('/blockUsers', { userIds: selectedUsers });
+      // Update local state to reflect changes
+      const newData = users.map(row =>
+        selectedUsers.includes(row.id) ? { ...row, status: 'blocked' } : row
+      );
+      setUsers(newData);
+      alert('Users blocked successfully');
+    } catch (error) {
+      console.error(error);
+      alert('Error blocking users');
+    }
   };
 
   const handleUnblockUsers = () => {
@@ -125,7 +136,7 @@ const ShowUsers = () => {
                 <td className="p-2 sm:p-4">{formatDate(user.registrationDate)}</td>
                 <td
                   className={ 
-                    user.status === "active" ? "text-green p-2 sm:p-4" : "text-red p-2 sm:p-4"
+                    user.status === "active" ? "text-green-500 p-2 sm:p-4" : "text-red-500 p-2 sm:p-4"
                   }
                 >
                   {user.status}
