@@ -65,7 +65,6 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar></Navbar>
       <ShowTable></ShowTable>
     </div>
   );

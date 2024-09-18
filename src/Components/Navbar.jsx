@@ -15,7 +15,6 @@ const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication status
 
   const axiosSecure = useAxiosSecure();
   const [users, setUsers] = useState([]);
@@ -36,12 +35,6 @@ const Navbar = () => {
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
   };
-
-  // const handleLogin = () => {
-  //   // Login logic here
-  //   setIsAuthenticated(true); // Simulate login
-  //   alert("Logged in!");
-  // };
 
   const handleLogOut = () => {
     logOut()
@@ -88,7 +81,7 @@ const Navbar = () => {
                   onClick={toggleProfileMenu}
                   className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                 >
-                  <FaUserCircle className="text-2xl" />
+                  {user.photo}
                 </button>
                 {isProfileOpen && (
                   <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
