@@ -8,18 +8,16 @@ const ShowUsers = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const axiosPublic = useAxiosPublic();
 
-  useEffect(() => {
-    // Fetch data from the backend
-    const fetchUsers = async () => {
-      try {
-        const response = await axiosPublic.get("/all-users");
-        //console.log(response.data);
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
+  const fetchUsers = async () => {
+    try {
+      const response = await axiosPublic.get("/all-users");
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -36,29 +34,37 @@ const ShowUsers = () => {
   };
 
   const handleBlockUsers = async () => {
-    console.log(selectedUsers)
+    // console.log(selectedUsers)
     try {
-      await axiosPublic.post('/blockUsers', { userIds: selectedUsers });
-      // Update local state to reflect changes
-      const newData = users.map(row =>
-        selectedUsers.includes(row.id) ? { ...row, status: 'blocked' } : row
-      );
-      setUsers(newData);
-      alert('Users blocked successfully');
+      await axiosPublic.post("/blockUsers", { userIds: selectedUsers });
+      fetchUsers();
+      alert("Users blocked successfully");
     } catch (error) {
       console.error(error);
-      alert('Error blocking users');
+      alert("Error blocking users");
     }
   };
 
-  const handleUnblockUsers = () => {
-    // Implement unblock functionality
-    console.log("Unblock users:", selectedUsers);
+  const handleUnblockUsers = async () => {
+    try {
+      await axiosPublic.post("/unblockUsers", { userIds: selectedUsers });
+      fetchUsers();
+      alert("Users unblocked successfully");
+    } catch (error) {
+      console.error(error);
+      alert("Error unblocking users");
+    }
   };
 
-  const handleDeleteUsers = () => {
-    // Implement delete functionality
-    console.log("Delete users:", selectedUsers);
+  const handleDeleteUsers = async() => {
+    try {
+      await axiosPublic.post('/delete', { userIds: selectedUsers });
+      fetchUsers();
+      alert('Users deleted successfully');
+    } catch (error) {
+      console.error(error);
+      alert('Error deleting users');
+    }
   };
 
   const formatDate = (dateString) => {
@@ -133,10 +139,14 @@ const ShowUsers = () => {
                 <td className="p-2 sm:p-4">{user.name}</td>
                 <td className="p-2 sm:p-4">{user.email}</td>
                 <td className="p-2 sm:p-4">{formatDate(user.lastLogin)}</td>
-                <td className="p-2 sm:p-4">{formatDate(user.registrationDate)}</td>
+                <td className="p-2 sm:p-4">
+                  {formatDate(user.registrationDate)}
+                </td>
                 <td
-                  className={ 
-                    user.status === "active" ? "text-green-500 p-2 sm:p-4" : "text-red-500 p-2 sm:p-4"
+                  className={
+                    user.status === "active"
+                      ? "text-green-500 p-2 sm:p-4"
+                      : "text-red-500 p-2 sm:p-4"
                   }
                 >
                   {user.status}
