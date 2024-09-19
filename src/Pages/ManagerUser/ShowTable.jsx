@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
-import useAxiosPublic from "../Hooks/useAxiosPublic";
 import { MdBlock, MdDelete } from "react-icons/md";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAuth from "../../Hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
 const ShowTable = () => {
+  const {user} = useAuth();
+  console.log(user)
+  if(!user){
+    return <Navigate to='/login'></Navigate>
+  }
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const axiosPublic = useAxiosPublic();

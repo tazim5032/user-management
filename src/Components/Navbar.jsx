@@ -29,6 +29,16 @@ const Navbar = () => {
             >
               Home
             </NavLink>
+            <NavLink
+              to="/manage-user"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-red-500 font-bold"
+                  : "text-white hover:text-gray-300"
+              }
+            >
+              Manage User
+            </NavLink>
 
             {/* Conditional Login/Logout */}
             {user ? (
@@ -98,14 +108,32 @@ const Navbar = () => {
           >
             Home
           </NavLink>
+          <NavLink
+            to="/manage-user"
+            className={({ isActive }) =>
+              isActive
+                ? "block text-red-500 font-bold"
+                : "block text-white hover:text-gray-300"
+            }
+          >
+            Manage User
+          </NavLink>
 
           {user ? (
-            <button
-              onClick={logOut}
-              className="block w-full text-left text-white bg-red-600 px-3 py-2 rounded-md hover:bg-red-700"
-            >
-              Logout
-            </button>
+            <div className="flex flex-col gap-4">
+              <button
+                // onClick={logOut}
+                className="block w-full text-left text-white bg-green-600 px-3 py-2 rounded-md hover:bg-red-700"
+              >
+                {user}
+              </button>
+              <button
+                onClick={logOut}
+                className="block w-full text-left text-white bg-red-600 px-3 py-2 rounded-md hover:bg-red-700"
+              >
+                Logout
+              </button>
+            </div>
           ) : (
             <Link
               to="/login"

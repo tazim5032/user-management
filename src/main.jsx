@@ -8,6 +8,8 @@ import AuthProvider from "./Provider/AuthProvider.jsx";
 import Register from "./Pages/SignUp/Register.jsx";
 import Login from "./Pages/Login/Login.jsx";
 import Home from "./Pages/Home/Home.jsx";
+import ShowTable from "./Pages/ManagerUser/ShowTable.jsx";
+import PrivateRoute from "./Components/PrivateRoute.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>
+      },
+      {
+        path: "/manage-user",
+        element: <ShowTable></ShowTable>
       },
       {
         path: 'login',
@@ -31,7 +37,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <>
     <AuthProvider><RouterProvider router={router} /></AuthProvider>
-  </StrictMode>
+  </>
 );
