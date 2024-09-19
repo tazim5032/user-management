@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
     
     const logoutUser = () => {
         setEmail('');
+        setUser(null)
         localStorage.setItem('access-token', '')
     }
       const logOut = async () => {

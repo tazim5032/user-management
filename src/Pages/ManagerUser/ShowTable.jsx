@@ -5,11 +5,12 @@ import useAuth from "../../Hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
 const ShowTable = () => {
-  const {user} = useAuth();
+  const {user,setUser} = useAuth();
+  //setUser(user)
+
   console.log(user)
-  if(!user){
-    return <Navigate to='/login'></Navigate>
-  }
+  
+
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const axiosPublic = useAxiosPublic();
@@ -43,6 +44,7 @@ const ShowTable = () => {
     try {
       await axiosPublic.post("/blockUsers", { userIds: selectedUsers });
       fetchUsers();
+      setSelectedUsers([])
       alert("Users blocked successfully");
     } catch (error) {
       console.error(error);
@@ -54,6 +56,7 @@ const ShowTable = () => {
     try {
       await axiosPublic.post("/unblockUsers", { userIds: selectedUsers });
       fetchUsers();
+      setSelectedUsers([])
       alert("Users unblocked successfully");
     } catch (error) {
       console.error(error);
@@ -85,8 +88,12 @@ const ShowTable = () => {
     return new Date(dateString).toLocaleString("en-US", options);
   };
 
+  // if(user==null){
+  //   return <Navigate to='/login'></Navigate>
+  // }
+
   return (
-    <div className="p-4 sm:p-8 mt-24">
+    <div className="p-4 sm:p-8 mt-24 mb-64">
       <div className="flex justify-center flex-wrap gap-4 mb-4">
         <button
           onClick={handleBlockUsers}
