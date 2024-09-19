@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import { MdBlock, MdDelete } from "react-icons/md";
 
-const ShowUsers = () => {
+const ShowTable = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const axiosPublic = useAxiosPublic();
@@ -34,7 +33,6 @@ const ShowUsers = () => {
   };
 
   const handleBlockUsers = async () => {
-    // console.log(selectedUsers)
     try {
       await axiosPublic.post("/blockUsers", { userIds: selectedUsers });
       fetchUsers();
@@ -81,7 +79,7 @@ const ShowUsers = () => {
   };
 
   return (
-    <div className="p-4 sm:p-8">
+    <div className="p-4 sm:p-8 mt-24">
       <div className="flex justify-center flex-wrap gap-4 mb-4">
         <button
           onClick={handleBlockUsers}
@@ -160,4 +158,4 @@ const ShowUsers = () => {
   );
 };
 
-export default ShowUsers;
+export default ShowTable;

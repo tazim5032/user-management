@@ -26,6 +26,13 @@ const Login = () => {
         `/userLogin?email=${info.email}&password=${info.password}`
       );
 
+      if(data.message == "blocked"){
+        return Swal.fire({
+          icon: "error",
+          text: "Your Account is blocked",
+        });
+      }
+
       if (data.message == "matched") {
         setEmail(info.email);
         setUser(info.email);

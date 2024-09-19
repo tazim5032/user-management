@@ -32,14 +32,24 @@ const Navbar = () => {
 
             {/* Conditional Login/Logout */}
             {user ? (
-              <Link to='/login'>
-                <button
-                  onClick={logOut}
-                  className="text-white bg-red-600 px-3 py-1 rounded hover:bg-red-700"
-                >
-                  Logout
-                </button>
-              </Link>
+              <div className="flex gap-4">
+                <Link to="/">
+                  <button
+                    // onClick={logOut}
+                    className="text-white bg-green-600 px-3 py-1 rounded hover:bg-red-700"
+                  >
+                    {user}
+                  </button>
+                </Link>
+                <Link to="/login">
+                  <button
+                    onClick={logOut}
+                    className="text-white bg-red-600 px-3 py-1 rounded hover:bg-red-700"
+                  >
+                    Logout
+                  </button>
+                </Link>
+              </div>
             ) : (
               <Link
                 to="/login"
