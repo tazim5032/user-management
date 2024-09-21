@@ -43,7 +43,7 @@ const Navbar = () => {
             {/* Conditional Login/Logout */}
             {user ? (
               <div className="flex gap-4">
-                <Link to="/">
+                <Link to="/manage-user">
                   <button
                     // onClick={logOut}
                     className="text-white bg-green-600 px-3 py-1 rounded hover:bg-red-700"

@@ -9,13 +9,11 @@ import FeatureCards from "./Components/FeatureCards";
 const Home = () => {
   return (
     <div className=''>
-      {/* <Navbar></Navbar> */}
       <Banner></Banner>
       <FeatureCards></FeatureCards>
       <CallToAction></CallToAction>
       <AboutSection></AboutSection>
       <FAQSection></FAQSection>
-      {/* <Footer></Footer> */}
     </div>
   );
 };

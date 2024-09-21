@@ -5,11 +5,10 @@ import useAuth from "../../Hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
 const ShowTable = () => {
-  const {user,setUser} = useAuth();
+  const { user, setUser, logOut } = useAuth();
   //setUser(user)
 
-  console.log(user)
-  
+  //c//onsole.log(user)
 
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -19,6 +18,14 @@ const ShowTable = () => {
     try {
       const response = await axiosPublic.get("/all-users");
       setUsers(response.data);
+      const email = user;
+      const { data } = await axiosPublic.get(`/user-status/${email}`);
+      // const data = await response.json();
+     // console.log(data.message);
+      // if (data.message === "blocked") {
+      //   logOut;
+      //   return <Navigate to="/login"></Navigate>;
+      // }
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -44,8 +51,16 @@ const ShowTable = () => {
     try {
       await axiosPublic.post("/blockUsers", { userIds: selectedUsers });
       fetchUsers();
-      setSelectedUsers([])
+      setSelectedUsers([]);
       alert("Users blocked successfully");
+      const email = user;
+      const { data } = await axiosPublic.get(`/user-status/${email}`);
+      // const data = await response.json();
+     // console.log(data.message);
+      if (data.message === "blocked") {
+        logOut();
+        return <Navigate to="/login"></Navigate>;
+      }
     } catch (error) {
       console.error(error);
       alert("Error blocking users");
@@ -56,7 +71,7 @@ const ShowTable = () => {
     try {
       await axiosPublic.post("/unblockUsers", { userIds: selectedUsers });
       fetchUsers();
-      setSelectedUsers([])
+      setSelectedUsers([]);
       alert("Users unblocked successfully");
     } catch (error) {
       console.error(error);
@@ -64,14 +79,14 @@ const ShowTable = () => {
     }
   };
 
-  const handleDeleteUsers = async() => {
+  const handleDeleteUsers = async () => {
     try {
-      await axiosPublic.post('/delete', { userIds: selectedUsers });
+      await axiosPublic.post("/delete", { userIds: selectedUsers });
       fetchUsers();
-      alert('Users deleted successfully');
+      alert("Users deleted successfully");
     } catch (error) {
       console.error(error);
-      alert('Error deleting users');
+      alert("Error deleting users");
     }
   };
 
