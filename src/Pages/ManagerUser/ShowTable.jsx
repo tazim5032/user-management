@@ -47,6 +47,7 @@ const ShowTable = () => {
         text: "User Blocked Successfully",
       });
       const email = user;
+      console.log(email)
       const { data } = await axiosPublic.get(`/user-status/${email}`);
       if (data.message === "blocked") {
         logOut();
