@@ -8,7 +8,7 @@ import FeatureCards from "./Components/FeatureCards";
 
 const Home = () => {
   return (
-    <div className=''>
+    <div>
       <Banner></Banner>
       <FeatureCards></FeatureCards>
       <CallToAction></CallToAction>

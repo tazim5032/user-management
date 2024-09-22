@@ -26,7 +26,7 @@ const Login = () => {
         `/userLogin?email=${info.email}&password=${info.password}`
       );
 
-      if(data.message == "blocked"){
+      if (data.message == "blocked") {
         return Swal.fire({
           icon: "error",
           text: "Your Account is blocked",
@@ -48,7 +48,6 @@ const Login = () => {
         });
       }
     } catch (error) {
-      console.log(error);
       alert("something went wrong!");
     }
   };

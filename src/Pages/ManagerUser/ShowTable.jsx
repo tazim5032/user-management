@@ -3,12 +3,10 @@ import { MdBlock, MdDelete } from "react-icons/md";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useAuth from "../../Hooks/useAuth";
 import { Navigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ShowTable = () => {
   const { user, setUser, logOut } = useAuth();
-  //setUser(user)
-
-  //c//onsole.log(user)
 
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -18,16 +16,8 @@ const ShowTable = () => {
     try {
       const response = await axiosPublic.get("/all-users");
       setUsers(response.data);
-      const email = user;
-      const { data } = await axiosPublic.get(`/user-status/${email}`);
-      // const data = await response.json();
-     // console.log(data.message);
-      // if (data.message === "blocked") {
-      //   logOut;
-      //   return <Navigate to="/login"></Navigate>;
-      // }
     } catch (error) {
-      console.error("Error fetching users:", error);
+      //console.error("Error fetching users:", error);
     }
   };
 
@@ -52,18 +42,18 @@ const ShowTable = () => {
       await axiosPublic.post("/blockUsers", { userIds: selectedUsers });
       fetchUsers();
       setSelectedUsers([]);
-      alert("Users blocked successfully");
+      Swal.fire({
+        icon: "success",
+        text: "User Blocked Successfully",
+      });
       const email = user;
       const { data } = await axiosPublic.get(`/user-status/${email}`);
-      // const data = await response.json();
-     // console.log(data.message);
       if (data.message === "blocked") {
         logOut();
         return <Navigate to="/login"></Navigate>;
       }
     } catch (error) {
-      console.error(error);
-      alert("Error blocking users");
+
     }
   };
 
@@ -72,10 +62,12 @@ const ShowTable = () => {
       await axiosPublic.post("/unblockUsers", { userIds: selectedUsers });
       fetchUsers();
       setSelectedUsers([]);
-      alert("Users unblocked successfully");
+      Swal.fire({
+        icon: "success",
+        text: "User Unblocked Successfully",
+      });
+   
     } catch (error) {
-      console.error(error);
-      alert("Error unblocking users");
     }
   };
 
@@ -83,10 +75,13 @@ const ShowTable = () => {
     try {
       await axiosPublic.post("/delete", { userIds: selectedUsers });
       fetchUsers();
-      alert("Users deleted successfully");
+      Swal.fire({
+        icon: "success",
+        text: "User Deleted Successfully",
+      });
+     
     } catch (error) {
-      console.error(error);
-      alert("Error deleting users");
+     
     }
   };
 
@@ -102,10 +97,6 @@ const ShowTable = () => {
     };
     return new Date(dateString).toLocaleString("en-US", options);
   };
-
-  // if(user==null){
-  //   return <Navigate to='/login'></Navigate>
-  // }
 
   return (
     <div className="p-4 sm:p-8 mt-24 mb-64">
@@ -150,7 +141,7 @@ const ShowTable = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {users.map((user,index) => (
               <tr
                 key={user._id}
                 className="text-xs sm:text-sm text-gray-700 border-b hover:bg-gray-50"
@@ -162,7 +153,7 @@ const ShowTable = () => {
                     onChange={() => handleSelectUser(user._id)}
                   />
                 </td>
-                <td className="p-2 sm:p-4">{user._id}</td>
+                <td className="p-2 sm:p-4">{index+1}</td>
                 <td className="p-2 sm:p-4">{user.name}</td>
                 <td className="p-2 sm:p-4">{user.email}</td>
                 <td className="p-2 sm:p-4">{formatDate(user.lastLogin)}</td>

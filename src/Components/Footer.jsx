@@ -8,9 +8,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}
           <div>
-            <h3 className="text-2xl font-bold text-green-400 mb-4">ManageHub</h3>
+            <h3 className="text-2xl font-bold text-green-400 mb-4">AuthMaster</h3>
             <p className="text-gray-400">
-              ManageHub is your go-to platform for managing tasks and resources with ease.
+              AuthMaster is your go-to platform for managing tasks and resources with ease.
             </p>
           </div>
 
@@ -55,7 +55,7 @@ const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="border-t border-gray-700 mt-8 pt-4 text-center text-gray-500">
-          <p>&copy; {new Date().getFullYear()} ManageHub. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} AuthMaster. All rights reserved.</p>
         </div>
       </div>
     </footer>
