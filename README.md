@@ -130,7 +130,3 @@ userSchema.index({ email: 1 }, { unique: true });
 
 ## License
 This project is licensed under the MIT License.
-
----
-
-Feel free to use this for your project! Let me know if any changes are needed.
