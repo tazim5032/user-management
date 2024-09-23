@@ -47,7 +47,7 @@ const ShowTable = () => {
         text: "User Blocked Successfully",
       });
       const email = user;
-      console.log(email)
+      //console.log(email)
       const { data } = await axiosPublic.get(`/user-status/${email}`);
       if (data.message === "blocked") {
         logOut();
@@ -80,6 +80,12 @@ const ShowTable = () => {
         icon: "success",
         text: "User Deleted Successfully",
       });
+      const email = user;
+      const { data } = await axiosPublic.get(`/user-status/${email}`);
+      if (data.message === "notExist") {
+        logOut();
+        return <Navigate to="/login"></Navigate>;
+      }
      
     } catch (error) {
      
